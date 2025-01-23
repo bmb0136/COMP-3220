@@ -76,37 +76,38 @@ class Lexer
       Token.new(Token::INT, str)
     elsif @c == '='
       nextCh
-      Token.new(Token::ASSIGN, @c)
+      Token.new(Token::ASSIGN, '=')
     elsif @c == '('
       nextCh
-      Token.new(Token::LPAREN, @c)
+      Token.new(Token::LPAREN, '(')
     elsif @c == ')'
       nextCh
-      Token.new(Token::RPAREN, @c)
+      Token.new(Token::RPAREN, ')')
     elsif @c == '+'
       nextCh
-      Token.new(Token::ADDOP, @c)
+      Token.new(Token::ADDOP, '+')
     elsif @c == '-'
       nextCh
-      Token.new(Token::SUBOP, @c)
+      Token.new(Token::SUBOP, '-')
     elsif @c == '*'
       nextCh
-      Token.new(Token::MULOP, @c)
+      Token.new(Token::MULOP, '*')
     elsif @c == '/'
       nextCh
-      Token.new(Token::DIVOP, @c)
+      Token.new(Token::DIVOP, '/')
     elsif @c == '<'
       nextCh
-      Token.new(Token::LESSOP, @c)
+      Token.new(Token::LESSOP, '<')
     elsif @c == '>'
       nextCh
-      Token.new(Token::GREATOP, @c)
+      Token.new(Token::GREATOP, '>')
     elsif @c == '&'
       nextCh
-      Token.new(Token::ANDOP, @c)
+      Token.new(Token::ANDOP, '&')
     else
+      res = Token.new(Token::UNKWN, @c)
       nextCh
-      Token.new(Token::UNKWN, @c)
+      res
     end
   end
 end
