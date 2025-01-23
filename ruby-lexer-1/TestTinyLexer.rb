@@ -1,5 +1,5 @@
-load './TinyToken.rb'
-load './TinyLexer.rb'
+require_relative 'TinyToken'
+require_relative 'TinyLexer'
 # if the file(s) are in the same directory, you can simply precede
 # the file name(s) with ./
 
@@ -9,7 +9,8 @@ load './TinyLexer.rb'
 # simply include the file name, otherwise, you will need
 # to specify the entire path to the file as we did above
 # to load the other ruby modules
-scan = Lexer.new('input.tiny')
+path = !ARGV.empty? ? ARGV[0] : 'input.tiny'
+scan = Lexer.new(path)
 tok = scan.nextToken
 
 # the code below will open a file so that I

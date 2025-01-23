@@ -27,7 +27,7 @@ class Lexer
 
   # Method nextCh() returns the next character in the file
   def nextCh
-    @c = if !@f.eof?
+    @c = if !@f.nil? && !@f.eof?
            @f.getc
          else
            'eof'

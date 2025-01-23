@@ -19,5 +19,14 @@
       devShells.ruby-lexer-1 = pkgs.mkShellNoCC {
         nativeBuildInputs = with pkgs; [ruby];
       };
+
+      packages.ruby-lexer-1 = pkgs.writeShellApplication {
+        name = "ruby-lexer-1";
+        runtimeInputs = with pkgs; [ruby];
+        text = ''
+          dir=${./ruby-lexer-1}
+          ruby "$dir/TestTinyLexer.rb" "$0"
+        '';
+      };
     });
 }
