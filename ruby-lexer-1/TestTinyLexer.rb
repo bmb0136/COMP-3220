@@ -1,5 +1,5 @@
-load "./TinyToken.rb"
-load "./TinyLexer.rb"
+load './TinyToken.rb'
+load './TinyLexer.rb'
 # if the file(s) are in the same directory, you can simply precede
 # the file name(s) with ./
 
@@ -9,25 +9,28 @@ load "./TinyLexer.rb"
 # simply include the file name, otherwise, you will need
 # to specify the entire path to the file as we did above
 # to load the other ruby modules
-scan = Lexer.new("input.tiny")
-tok = scan.nextToken()
+scan = Lexer.new('input.tiny')
+tok = scan.nextToken
 
-# the code below will open a file so that I 
+# the code below will open a file so that I
 # can save tokens to it
-tokenFile = File.open("tokens", "w")
+token_file = File.open('tokens', 'w')
 
 # keep "fetching" one token at a time, using your scanner
-# until there are no tokens left to scan 
-while (tok.get_type() != Token::EOF)
-   
-   # The instruction below writes your token into a file.
-   tokenFile.puts"#{tok}"
-   
-   # get the next token available (if there is one)
-   tok = scan.nextToken()
-end 
+# until there are no tokens left to scan
+while tok.get_type != Token::EOF
+
+  puts "Next token is: #{tok.get_type} Next lexeme is: #{tok.get_text}"
+
+  # The instruction below writes your token into a file.
+  token_file.puts tok.to_s
+
+  # get the next token available
+  tok = scan.nextToken
+end
 
 # There should be one token left (see the boolean condition above)
 # putting the last token in the file and closing the file
-tokenFile.puts"#{tok}"
-tokenFile.close
+token_file.puts tok.to_s
+token_file.close
+
