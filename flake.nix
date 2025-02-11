@@ -28,5 +28,13 @@
           ruby "$dir/TestTinyLexer.rb" "$0"
         '';
       };
+      packages.ruby-lexer-2 = pkgs.writeShellApplication {
+        name = "ruby-lexer-2";
+        runtimeInputs = with pkgs; [ruby];
+        text = ''
+          dir=${./ruby-lexer-2}
+          ruby "$dir/TestTinyLexer.rb" "$0"
+        '';
+      };
     });
 }
