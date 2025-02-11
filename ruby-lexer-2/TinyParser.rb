@@ -86,8 +86,8 @@ class Parser < Lexer
   def etail
     if @lookahead.type == Token::ADDOP || @lookahead.type == Token::SUBOP
       match(@lookahead.type, @lookahead.type == Token::ADDOP ? 'ADDOP' : 'SUBOP')
-      puts 'Entering FACTOR Rule'
-      factor
+      puts 'Entering TERM Rule'
+      term
       puts 'Entering ETAIL Rule'
       etail
     else
