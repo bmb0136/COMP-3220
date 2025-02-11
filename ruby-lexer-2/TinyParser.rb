@@ -7,6 +7,7 @@ class Parser < Lexer
   def initialize(filename)
     super(filename)
     consume
+    @errors = 0
   end
 
   def consume
@@ -19,6 +20,7 @@ class Parser < Lexer
       puts "Found #{name} Token: #{@lookahead.text}"
     else
       puts "Expected #{name} found #{@lookahead.text}"
+      @errors += 1
     end
     consume
   end
@@ -28,6 +30,7 @@ class Parser < Lexer
       puts 'Entering STMT Rule'
       statement
     end
+    puts "There were #{@errors} parse errors found."
   end
 
   def statement
@@ -94,6 +97,16 @@ class Parser < Lexer
   end
 
   def factor
+    case @lookahead.type
+    when Token::LPAREN
+      match(Token::LPAREN, 'LPAREN')
+      puts 'Entering EXP Rule'
+      exp
+      match(Token::RPAREN, 'RPAREN')
+    when Token::INT then match(Token::INT, 'INT')
+    when Token::ID then match(Token::ID, 'ID')
+    else puts "Expected LPAREN or INT or ID Token found #{@lookahead.type}"
+    end
     puts 'Exiting FACTOR Rule'
   end
 end
