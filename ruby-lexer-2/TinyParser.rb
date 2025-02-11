@@ -48,7 +48,7 @@ class Parser < Lexer
 
   def assign
     match(Token::ID, 'ID')
-    match(Token::ASSGN, 'ASSGN')
+    match(Token::ASSGN, '=')
     puts 'Entering EXP Rule'
     exp
     puts 'Exiting ASSGN Rule'
@@ -72,7 +72,7 @@ class Parser < Lexer
 
   def ttail
     if @lookahead.type == Token::MULTOP || @lookahead.type == Token::DIVOP
-      match(@lookahead.type, @lookahead.type == Token::MULTOP ? 'MULTOP' : 'DIVOP')
+      match(@lookahead.type, @lookahead.type == Token::MULTOP ? '*' : '/')
       puts 'Entering FACTOR Rule'
       factor
       puts 'Entering TTAIL Rule'
@@ -85,7 +85,7 @@ class Parser < Lexer
 
   def etail
     if @lookahead.type == Token::ADDOP || @lookahead.type == Token::SUBOP
-      match(@lookahead.type, @lookahead.type == Token::ADDOP ? 'ADDOP' : 'SUBOP')
+      match(@lookahead.type, @lookahead.type == Token::ADDOP ? '+' : '-')
       puts 'Entering TERM Rule'
       term
       puts 'Entering ETAIL Rule'
@@ -99,7 +99,7 @@ class Parser < Lexer
   def factor
     case @lookahead.type
     when Token::LPAREN
-      match(Token::LPAREN, 'LPAREN')
+      match(Token::LPAREN, '(')
       puts 'Entering EXP Rule'
       exp
       match(Token::RPAREN, 'RPAREN')
