@@ -15,7 +15,11 @@ class Parser < Lexer
   end
 
   def match(dtype)
-    puts "Expected #{dtype} found #{@lookahead.text}" if @lookahead.type != dtype
+    if @lookahead.type == dtype
+      puts "Found #{dtype} Token: #{@lookahead.text}"
+    else
+      puts "Expected #{dtype} found #{@lookahead.text}"
+    end
     consume
   end
 
@@ -28,7 +32,6 @@ class Parser < Lexer
 
   def statement
     if @lookahead.type == Token::PRINT
-      puts "Found PRINT Token: #{@lookahead.text}"
       match(Token::PRINT)
       puts 'Entering EXP Rule'
       exp
@@ -38,5 +41,21 @@ class Parser < Lexer
     end
 
     puts 'Exiting STMT Rule'
+  end
+
+  def assign
+    match(Token::ID)
+    match(Token::ASSGN)
+    puts 'Entering EXP Rule'
+    exp
+    puts 'Exiting ASSGN Rule'
+  end
+
+  def exp
+    puts 'Entering TERM Rule'
+    term
+    puts 'Entering ETAIL Rule'
+    etail
+    puts 'Exiting EXP Rule'
   end
 end
