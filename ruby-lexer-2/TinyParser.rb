@@ -14,11 +14,11 @@ class Parser < Lexer
     @lookahead = nextToken while @lookahead.type == Token::WS
   end
 
-  def match(dtype)
+  def match(dtype, name)
     if @lookahead.type == dtype
-      puts "Found #{dtype} Token: #{@lookahead.text}"
+      puts "Found #{name} Token: #{@lookahead.text}"
     else
-      puts "Expected #{dtype} found #{@lookahead.text}"
+      puts "Expected #{name} found #{@lookahead.text}"
     end
     consume
   end
@@ -32,7 +32,7 @@ class Parser < Lexer
 
   def statement
     if @lookahead.type == Token::PRINT
-      match(Token::PRINT)
+      match(Token::PRINT, 'PRINT')
       puts 'Entering EXP Rule'
       exp
     else
@@ -44,8 +44,8 @@ class Parser < Lexer
   end
 
   def assign
-    match(Token::ID)
-    match(Token::ASSGN)
+    match(Token::ID, 'ID')
+    match(Token::ASSGN, 'ASSGN')
     puts 'Entering EXP Rule'
     exp
     puts 'Exiting ASSGN Rule'
@@ -57,5 +57,26 @@ class Parser < Lexer
     puts 'Entering ETAIL Rule'
     etail
     puts 'Exiting EXP Rule'
+  end
+
+  def term
+    puts 'Entering FACTOR Rule'
+    factor
+    puts 'Entering TTAIL Rule'
+    ttail
+    puts 'Exiting TERM Rule'
+  end
+
+  def ttail
+    if @lookahead.type == Token::MULTOP || @lookahead.type == Token::DIVOP
+      match(@lookahead.type, @lookahead.type == Token::MULTOP ? 'MULTOP' : 'DIVOP')
+      puts 'Entering FACTOR Rule'
+      factor
+      puts 'Entering TTAIL Rule'
+      ttail
+    else
+      puts 'Did not find MULTOP or DIVOP Token, choosing EPSILON production'
+    end
+    puts 'Exiting TTAIL Rule'
   end
 end
