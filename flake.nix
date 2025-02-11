@@ -33,7 +33,7 @@
         runtimeInputs = with pkgs; [ruby];
         text = ''
           dir=${./ruby-lexer-2}
-          ruby "$dir/TestTinyLexer.rb" "$0"
+          ruby "$dir/main.rb" "$0"
         '';
       };
     });
