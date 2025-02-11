@@ -79,4 +79,21 @@ class Parser < Lexer
     end
     puts 'Exiting TTAIL Rule'
   end
+
+  def etail
+    if @lookahead.type == Token::ADDOP || @lookahead.type == Token::SUBOP
+      match(@lookahead.type, @lookahead.type == Token::ADDOP ? 'ADDOP' : 'SUBOP')
+      puts 'Entering FACTOR Rule'
+      factor
+      puts 'Entering ETAIL Rule'
+      etail
+    else
+      puts 'Did not find ADDOP or SUBOP Token, choosing EPSILON production'
+    end
+    puts 'Exiting ETAIL Rule'
+  end
+
+  def factor
+    puts 'Exiting FACTOR Rule'
+  end
 end
