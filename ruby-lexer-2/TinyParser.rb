@@ -17,7 +17,7 @@ class Parser < Lexer
 
   def match(dtype, name)
     if @lookahead.type == dtype
-      puts "Found #{name} Token: #{@lookahead.text}"
+      puts "Found #{dtype} Token: #{@lookahead.text}"
     else
       puts "Expected #{name} found #{@lookahead.text}"
       @errors += 1
