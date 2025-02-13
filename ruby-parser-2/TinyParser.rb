@@ -64,8 +64,8 @@ class Parser < Lexer
 
   def ifstatment
     match(Token::IF, 'IF')
-    puts 'Entering CONDITION Rule'
-    condition
+    puts 'Entering COMPARISON Rule'
+    comparison
     match(Token::THEN, 'THEN')
     puts 'Entering STMTSEQ Rule'
     statementseq
@@ -74,12 +74,24 @@ class Parser < Lexer
 
   def loop
     match(Token::WHILE, 'WHILE')
-    puts 'Entering CONDITION Rule'
-    condition
+    puts 'Entering COMPARISON Rule'
+    comparison
     match(Token::THEN, 'THEN')
     puts 'Entering STMTSEQ Rule'
     statementseq
     match(Token::END, 'END')
+  end
+
+  def comparison
+    puts 'Entering FACTOR Rule'
+    factor
+    case @lookahead.type
+    when Token::LT then match(Token::LT, 'LT')
+    when Token::GT then match(Token::GT, 'GT')
+    when Token::ANDOP then match(Token::ANDOP, 'ANDOP')
+    end
+    puts 'Entering FACTOR Rule'
+    factor
   end
 
   def assign
