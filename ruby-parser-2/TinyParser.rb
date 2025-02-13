@@ -62,6 +62,26 @@ class Parser < Lexer
     puts 'Exiting STMT Rule'
   end
 
+  def ifstatment
+    match(Token::IF, 'IF')
+    puts 'Entering CONDITION Rule'
+    condition
+    match(Token::THEN, 'THEN')
+    puts 'Entering STMTSEQ Rule'
+    statementseq
+    match(Token::END, 'END')
+  end
+
+  def loop
+    match(Token::WHILE, 'WHILE')
+    puts 'Entering CONDITION Rule'
+    condition
+    match(Token::THEN, 'THEN')
+    puts 'Entering STMTSEQ Rule'
+    statementseq
+    match(Token::END, 'END')
+  end
+
   def assign
     match(Token::ID, 'ID')
     match(Token::ASSGN, 'ASSGN')
