@@ -26,21 +26,37 @@ class Parser < Lexer
   end
 
   def program
+    puts 'Entering STMTSEQ Rule'
+    statementseq
+    puts "There were #{@errors} parse errors found."
+  end
+
+  def statementseq
     while @lookahead.type != Token::EOF
       puts 'Entering STMT Rule'
       statement
     end
-    puts "There were #{@errors} parse errors found."
+    puts 'Exiting STMTSEQ Rule'
   end
 
   def statement
-    if @lookahead.type == Token::PRINT
+    case @lookahead.type
+    when Token::PRINT
       match(Token::PRINT, 'PRINT')
       puts 'Entering EXP Rule'
       exp
-    else
+    when Token::ID
       puts 'Entering ASSGN Rule'
       assign
+    when Token::IF
+      puts 'Entering IFSTMT Rule'
+      ifstatment
+    when Token::WHILE
+      puts 'Entering LOOPSTMT Rule'
+      loop
+    else
+      puts "Expected PRINT or ID or IF or WHILE found #{@lookahead.type}"
+      @errors += 1
     end
 
     puts 'Exiting STMT Rule'
