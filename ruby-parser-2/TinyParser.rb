@@ -48,10 +48,10 @@ class Parser < Lexer
     when Token::ID
       puts 'Entering ASSGN Rule'
       assign
-    when Token::IF
+    when Token::IFOP
       puts 'Entering IFSTMT Rule'
       ifstatment
-    when Token::WHILE
+    when Token::WHILEOP
       puts 'Entering LOOPSTMT Rule'
       loop
     else
@@ -63,23 +63,23 @@ class Parser < Lexer
   end
 
   def ifstatment
-    match(Token::IF, 'IF')
+    match(Token::IFOP, 'IF')
     puts 'Entering COMPARISON Rule'
     comparison
-    match(Token::THEN, 'THEN')
+    match(Token::THENOP, 'THEN')
     puts 'Entering STMTSEQ Rule'
     statementseq
-    match(Token::END, 'END')
+    match(Token::ENDOP, 'END')
   end
 
   def loop
-    match(Token::WHILE, 'WHILE')
+    match(Token::WHILEOP, 'WHILE')
     puts 'Entering COMPARISON Rule'
     comparison
-    match(Token::THEN, 'THEN')
+    match(Token::THENOP, 'THEN')
     puts 'Entering STMTSEQ Rule'
     statementseq
-    match(Token::END, 'END')
+    match(Token::ENDOP, 'END')
   end
 
   def comparison
