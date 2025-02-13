@@ -105,7 +105,9 @@ class Parser < Lexer
       match(Token::RPAREN, 'RPAREN')
     when Token::INT then match(Token::INT, 'INT')
     when Token::ID then match(Token::ID, 'ID')
-    else puts "Expected LPAREN or INT or ID Token found #{@lookahead.type}"
+    else
+      puts "Expected ( or INT or ID found #{@lookahead.type}"
+      @errors += 1
     end
     puts 'Exiting FACTOR Rule'
   end
