@@ -54,6 +54,9 @@ class Parser < Lexer
     when Token::WHILEOP
       puts 'Entering LOOPSTMT Rule'
       loop
+    when Token::ENDOP
+      match(Token::ENDOP, 'ENDOP')
+      return
     else
       puts "Expected PRINT or ID or IF or WHILE found #{@lookahead.type}"
       @errors += 1
@@ -69,7 +72,6 @@ class Parser < Lexer
     match(Token::THENOP, 'THEN')
     puts 'Entering STMTSEQ Rule'
     statementseq
-    match(Token::ENDOP, 'END')
   end
 
   def loop
@@ -79,7 +81,6 @@ class Parser < Lexer
     match(Token::THENOP, 'THEN')
     puts 'Entering STMTSEQ Rule'
     statementseq
-    match(Token::ENDOP, 'END')
   end
 
   def comparison
