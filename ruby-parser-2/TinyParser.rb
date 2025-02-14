@@ -33,6 +33,11 @@ class Parser < Lexer
 
   def statementseq
     while @lookahead.type != Token::EOF
+      if @lookahead.type == Token::ENDOP
+        puts 'Exiting STMTSEQ Rule'
+        match(Token::ENDOP, 'ENDOP')
+        return
+      end
       puts 'Entering STMT Rule'
       statement
     end
@@ -45,42 +50,44 @@ class Parser < Lexer
       match(Token::PRINT, 'PRINT')
       puts 'Entering EXP Rule'
       exp
-    when Token::ID
-      puts 'Entering ASSGN Rule'
-      assign
     when Token::IFOP
       puts 'Entering IFSTMT Rule'
       ifstatment
     when Token::WHILEOP
       puts 'Entering LOOPSTMT Rule'
       loop
-    when Token::ENDOP
-      match(Token::ENDOP, 'ENDOP')
-      return
+    # when Token::ID
+    #  puts 'Entering ASSGN Rule'
+    #  assign
     else
-      puts "Expected PRINT or ID or IF or WHILE found #{@lookahead.type}"
-      @errors += 1
+      # puts "Expected PRINT or ID or IF or WHILE found #{@lookahead.type}"
+      # @errors += 1
+      # consume
+      puts 'Entering ASSGN Rule'
+      assign
     end
 
     puts 'Exiting STMT Rule'
   end
 
   def ifstatment
-    match(Token::IFOP, 'IF')
+    match(Token::IFOP, 'IFOP')
     puts 'Entering COMPARISON Rule'
     comparison
-    match(Token::THENOP, 'THEN')
+    match(Token::THENOP, 'THENOP')
     puts 'Entering STMTSEQ Rule'
     statementseq
+    puts 'Exiting IFSTMT Rule'
   end
 
   def loop
-    match(Token::WHILEOP, 'WHILE')
+    match(Token::WHILEOP, 'WHILEOP')
     puts 'Entering COMPARISON Rule'
     comparison
-    match(Token::THENOP, 'THEN')
+    match(Token::THENOP, 'THENOP')
     puts 'Entering STMTSEQ Rule'
     statementseq
+    puts 'Exiting LOOPSTMT Rule'
   end
 
   def comparison
@@ -93,6 +100,7 @@ class Parser < Lexer
     end
     puts 'Entering FACTOR Rule'
     factor
+    puts 'Exiting COMPARISON Rule'
   end
 
   def assign
