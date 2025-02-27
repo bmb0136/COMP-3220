@@ -49,28 +49,32 @@ class Parser < Lexer
   end
 
   def exp
-    term
-    etail
+    a = term
+    b = etail
+    return a if b.nil?
+
+    b.addChild(a)
+    b
   end
 
   def term
-    factor
-    ttail
+    a = factor
+    b = ttail
+    return a if b.nil?
+
+    b.addChild(a)
+    b
   end
 
   def factor
+    fct = AST.new(Token.new('factor', 'factor'))
     if @lookahead.type == Token::LPAREN
       match(Token::LPAREN)
-      exp
-      if @lookahead.type == Token::RPAREN
-        match(Token::RPAREN)
-      else
-        match(Token::RPAREN)
-      end
-    elsif @lookahead.type == Token::INT
-      match(Token::INT)
-    elsif @lookahead.type == Token::ID
-      match(Token::ID)
+      fct = exp
+      match(Token::RPAREN)
+    elsif @lookahead.type == Token::INT || @lookahead.type == Token::ID
+      fct = AST.new(@lookahead)
+      match(@lookahead.type)
     else
       puts "Expected ( or INT or ID found #{@lookahead.text}"
       @errors_found += 1
@@ -80,27 +84,23 @@ class Parser < Lexer
   end
 
   def ttail
-    if @lookahead.type == Token::MULTOP
-      match(Token::MULTOP)
-      factor
-      ttail
-    elsif @lookahead.type == Token::DIVOP
-      match(Token::DIVOP)
-      factor
-      ttail
-    end
+    return nil unless @lookahead.type == Token::MULTOP || @lookahead.type == Token::DIVOP
+
+    a = AST.new(@lookahead)
+    consume
+    a.addChild(factor)
+    a.addChild(ttail)
+    a
   end
 
   def etail
-    if @lookahead.type == Token::ADDOP
-      match(Token::ADDOP)
-      term
-      etail
-    elsif @lookahead.type == Token::SUBOP
-      match(Token::SUBOP)
-      term
-      etail
-    end
+    return nil unless @lookahead.type == Token::ADDOP || @lookahead.type == Token::SUBOP
+
+    a = AST.new(@lookahead)
+    consume
+    a.addChild(term)
+    a.addChild(etail)
+    a
   end
 
   def assign
