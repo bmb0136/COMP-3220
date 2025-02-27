@@ -41,7 +41,7 @@
         runtimeInputs = with pkgs; [ruby];
         text = ''
           dir=${./ruby-parser-2}
-          ruby "$dir/main.rb" "$0"
+          ruby "$dir/main.rb" "$1"
         '';
       };
     });
