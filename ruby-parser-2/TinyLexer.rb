@@ -6,7 +6,7 @@ class Lexer
   #               each time nextToken() is invoked.
   #   @c        - A one character lookahead 
     def initialize(filename)
-      	@f = File.open(filename,'r:utf-8') if File::exists?(filename)
+      	@f = File.open(filename,'r:utf-8') if File::exist?(filename)
 	if !@f
 		abort("File does not exist!")
 	end
