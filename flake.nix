@@ -28,11 +28,11 @@
           ruby "$dir/TestTinyLexer.rb" "$0"
         '';
       };
-      packages.ruby-parser-2 = pkgs.writeShellApplication {
-        name = "ruby-parser-2";
+      packages.ruby-parser-1 = pkgs.writeShellApplication {
+        name = "ruby-parser-1";
         runtimeInputs = with pkgs; [ruby];
         text = ''
-          dir=${./ruby-parser-2}
+          dir=${./ruby-parser-1}
           ruby "$dir/main.rb" "$0"
         '';
       };
