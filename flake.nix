@@ -36,5 +36,13 @@
           ruby "$dir/main.rb" "$0"
         '';
       };
+      packages.ruby-parser-2 = pkgs.writeShellApplication {
+        name = "ruby-parser-2";
+        runtimeInputs = with pkgs; [ruby];
+        text = ''
+          dir=${./ruby-parser-2}
+          ruby "$dir/main.rb" "$0"
+        '';
+      };
     });
 }
