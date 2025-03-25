@@ -67,6 +67,9 @@
       ((integer? e) e)
       ((symbol? e) (apply-env myEnv e ))
       ((eqv? (car e) '+) (+ (exp myEnv (cadr e))(exp myEnv (caddr e))))
+      ((eqv? (car e) '-) (- (exp myEnv (cadr e))(exp myEnv (caddr e))))
+      ((eqv? (car e) '*) (* (exp myEnv (cadr e))(exp myEnv (caddr e))))
+      ((eqv? (car e) '/) (/ (exp myEnv (cadr e))(exp myEnv (caddr e))))
       (else (display "I saw something I didn't understand")))))
 
 ;;; DON'T TOUCH THE LINE BELOW THIS ONE IF YOU WANT TO RECEIVE A GRADE! ;;;
