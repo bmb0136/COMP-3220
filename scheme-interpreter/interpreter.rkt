@@ -61,21 +61,26 @@
         ((eqv? (car stmt) 'if) (procIf (cdr stmt) myEnv))
         ( else (display "\nI saw something I didn't understand.")))))
 
-;; procIf : statment, environment -> environment
-(define procIf
-  (lambda (stmt myEnv)
-    (let*
-      ((con (car stmt))
-      (op (car con))
+;; evalCond : (op left right), environment -> bool
+(define evalCond
+  (lambda (con myEnv)
+    (let* 
+      ((op (car con))
       (l (exp myEnv (cadr con)))
-      (r (exp myEnv (caddr con)))
-      (res (cond
+      (r (exp myEnv (caddr con))))
+      (cond
         ((eqv? op '&) (eqv? l r))
         ((eqv? op '<) (< l r))
         ((eqv? op '>) (> l r))
-        (else (display "\nI saw something I didn't understand."))))
+        (else (display "\nI saw something I didn't understand."))))))
+
+;; procIf : statment, environment -> environment
+(define procIf
+  (lambda (stmt myEnv)
+    (let
+      ((con (car stmt))
       (body (cadr (cadr stmt))))
-      (if res (process body myEnv) myEnv))))
+      (if (evalCond con myEnv) (process body myEnv) myEnv))))
 
 ;; exp : expression -> value    
 (define exp
