@@ -58,8 +58,25 @@
                                     (display (exp myEnv (cadr stmt)))
                                     myEnv))
         ((eqv? (car stmt) '=) (extend-env myEnv (cadr stmt)(exp myEnv (caddr stmt))))
-        ( else (display "\nI saw something I didn't  understand.")))))
-                    
+        ((eqv? (car stmt) 'if) (procIf (cdr stmt) myEnv))
+        ( else (display "\nI saw something I didn't understand.")))))
+
+;; procIf : statment, environment -> environment
+(define procIf
+  (lambda (stmt myEnv)
+    (let*
+      ((con (car stmt))
+      (op (car con))
+      (l (exp myEnv (cadr con)))
+      (r (exp myEnv (caddr con)))
+      (res (cond
+        ((eqv? op '&) (eqv? l r))
+        ((eqv? op '<) (< l r))
+        ((eqv? op '>) (> l r))
+        (else (display "\nI saw something I didn't understand."))))
+      (body (cadr (cadr stmt))))
+      (if res (process body myEnv) myEnv))))
+
 ;; exp : expression -> value    
 (define exp
   (lambda (myEnv e)
