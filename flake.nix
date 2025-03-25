@@ -14,10 +14,13 @@
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {
-      devShells.default = self.devShells.${system}.ruby-lexer-1;
+      devShells.default = self.devShells.${system}.racket;
 
-      devShells.ruby-lexer-1 = pkgs.mkShellNoCC {
+      devShells.ruby = pkgs.mkShellNoCC {
         nativeBuildInputs = with pkgs; [ruby];
+      };
+      devShells.racket = pkgs.mkShellNoCC {
+        nativeBuildInputs = with pkgs; [racket-minimal];
       };
 
       packages.ruby-lexer-1 = pkgs.writeShellApplication {
@@ -42,6 +45,16 @@
         text = ''
           dir=${./ruby-parser-2}
           ruby "$dir/main.rb" "$1"
+        '';
+      };
+      packages.scheme-interpreter = pkgs.writeShellApplication {
+        name = "scheme-interpreter";
+        runtimeInputs = with pkgs; [racket-minimal];
+        text = ''
+          dir="${./scheme-interpreter}"
+          pushd $dir >/dev/null 2>/dev/null
+          racket main.rkt
+          popd >/dev/null 2>/dev/null
         '';
       };
     });
