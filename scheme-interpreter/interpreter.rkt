@@ -59,6 +59,7 @@
                                     myEnv))
         ((eqv? (car stmt) '=) (extend-env myEnv (cadr stmt)(exp myEnv (caddr stmt))))
         ((eqv? (car stmt) 'if) (procIf (cdr stmt) myEnv))
+        ((eqv? (car stmt) 'while) (procWhile (cdr stmt) myEnv))
         ( else (display "\nI saw something I didn't understand.")))))
 
 ;; evalCond : (op left right), environment -> bool
@@ -73,6 +74,16 @@
         ((eqv? op '<) (< l r))
         ((eqv? op '>) (> l r))
         (else (display "\nI saw something I didn't understand."))))))
+
+; (while (> x 0) (then ((print x)(= x (- x 1))) end) ))) ; should print numbers 10 - 1
+
+;; procWhile : statment, environment -> environment
+(define procWhile
+  (lambda (stmt myEnv)
+    (let
+      ((con (car stmt))
+      (body (cadr (cadr stmt))))
+      (if (evalCond con myEnv) (procWhile stmt (process body myEnv)) myEnv))))
 
 ;; procIf : statment, environment -> environment
 (define procIf
