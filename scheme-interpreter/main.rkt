@@ -1,11 +1,6 @@
+#lang racket
+;;#lang racket
+
 (require "interpreter.rkt")
 
 (interpreter aprog)
-(interpreter bprog)
-(interpreter cprog)
-(interpreter dprog)
-(interpreter eprog)
-(interpreter fprog)
-(interpreter gprog)
-(interpreter hprog)
-(interpreter iprog)
