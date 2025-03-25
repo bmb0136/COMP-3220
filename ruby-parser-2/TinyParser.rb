@@ -51,19 +51,15 @@ class Parser < Lexer
   def exp
     a = term
     b = etail
-    return a if b.nil?
-
-    b.addChild(a)
-    b
+    a.setNextSibling(b)
+    a
   end
 
   def term
     a = factor
     b = ttail
-    return a if b.nil?
-
-    b.addChild(a)
-    b
+    a.setNextSibling(b)
+    a
   end
 
   def factor
@@ -88,8 +84,11 @@ class Parser < Lexer
 
     a = AST.new(@lookahead)
     consume
-    a.addChild(factor)
-    a.addChild(ttail)
+    x = factor
+    y = etail
+
+    a.addChild(x)
+    a.addChild(y)
     a
   end
 
@@ -98,8 +97,13 @@ class Parser < Lexer
 
     a = AST.new(@lookahead)
     consume
-    a.addChild(term)
-    a.addChild(etail)
+    x = term
+    y = etail
+
+    puts "etail: x=#{x.toStringList} y=#{y&.toStringList}"
+
+    a.addChild(x)
+    a.addChild(y)
     a
   end
 
