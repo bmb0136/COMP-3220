@@ -70,7 +70,7 @@
       (l (exp myEnv (cadr con)))
       (r (exp myEnv (caddr con))))
       (cond
-        ((eqv? op '&) (eqv? l r))
+        ((eqv? op '&) (and (not (eqv? l 0)) (not (eqv? r 0))))
         ((eqv? op '<) (< l r))
         ((eqv? op '>) (> l r))
         (else (display "\nI saw something I didn't understand."))))))
@@ -98,6 +98,7 @@
   (lambda (myEnv e)
     (cond
       ((integer? e) e)
+      ((boolean? e) (if e 1 0))
       ((symbol? e) (apply-env myEnv e ))
       ((eqv? (car e) '+) (+ (exp myEnv (cadr e))(exp myEnv (caddr e))))
       ((eqv? (car e) '-) (- (exp myEnv (cadr e))(exp myEnv (caddr e))))
