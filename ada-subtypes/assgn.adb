@@ -16,9 +16,12 @@ package body Assgn is
 
   --reverse binary array
   procedure Reverse_Bin_Arr (Arr : in out BINARY_ARRAY) is
+    Temp : INTEGER;
   begin
     for i in 1..8 loop
+      Temp := Arr(i);
       Arr (i) := Arr(17 - i);
+      Arr (17 - i) := Temp;
     end loop;
   end Reverse_Bin_Arr;
 
