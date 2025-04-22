@@ -66,7 +66,7 @@
         '';
         installPhase = ''
           mkdir -p $out/bin
-          cp main $out/bin/
+          cp main $out/bin/ada-subtypes
         '';
       };
     });
