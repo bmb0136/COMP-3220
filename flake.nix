@@ -57,5 +57,17 @@
           popd >/dev/null 2>/dev/null
         '';
       };
+      packages.ada-subtypes = pkgs.stdenv.mkDerivation {
+        name = "ada-subtypes";
+        src = ./ada-subtypes;
+        nativeBuildInputs = [pkgs.gnat14];
+        buildPhase = ''
+          gnatmake main.adb
+        '';
+        installPhase = ''
+          mkdir -p $out/bin
+          cp main $out/bin/
+        '';
+      };
     });
 }
